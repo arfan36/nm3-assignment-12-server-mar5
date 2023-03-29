@@ -1,4 +1,5 @@
 const express = require("express");
+const controllers = require("../../controllers/users.controllers");
 
 const router = express.Router();
 
@@ -27,9 +28,7 @@ router
 	 * @apiError (Unauthorized 401)	 Unauthorized 		Only authorized users can access the data
 	 * @apiError (Forbidden 403 		Forbidden 			Only admin can access the data)
 	 */
-	.get((req, res) => {
-		res.send("users found");
-	})
+	.get(controllers.getAllUsers)
 
 	/**
 	 * @api {post} /save a user
@@ -43,8 +42,6 @@ router
 	 * @apiError (Unauthorized 401)	 Unauthorized 		Only authorized users can access the data
 	 * @apiError (Forbidden 403 		Forbidden 			Only admin can access the data)
 	 */
-	.post((req, res) => {
-		res.send("users added");
-	});
+	.post(controllers.saveAUser);
 
 module.exports = router;
