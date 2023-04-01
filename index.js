@@ -6,6 +6,8 @@ const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const dbConnect = require("./utils/dbConnect");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const usersRoute = require("./routes/v1/users.routes.js");
+const viewCount = require("./middleware/viewCount");
+const { rateLimit } = require("express-rate-limit");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -29,6 +31,11 @@ function verifyJWT(req, res, next) {
 		next();
 	});
 }
+
+// app.use(viewCount);
+
+// Apply the rate limiting middleware to all requests
+// app.use(limiter);
 
 // mongoDb
 dbConnect();
@@ -337,7 +344,7 @@ app.get("/", (req, res) => {
 });
 
 app.all("*", (req, res) => {
-	res.send("No routes found");
+	res.send("*** No routes found");
 });
 
 app.listen(port, () => {

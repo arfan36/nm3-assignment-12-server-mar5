@@ -1,5 +1,7 @@
 const express = require("express");
-const controllers = require("../../controllers/users.controllers");
+const userControllers = require("../../controllers/users.controllers");
+const viewCount = require("../../middleware/viewCount");
+const limiter = require("../../middleware/limiter");
 
 const router = express.Router();
 
@@ -28,8 +30,7 @@ router
 	 * @apiError (Unauthorized 401)	 Unauthorized 		Only authorized users can access the data
 	 * @apiError (Forbidden 403 		Forbidden 			Only admin can access the data)
 	 */
-	.get(controllers.getAllUsers)
-
+	.get(userControllers.getAllUsers)
 	/**
 	 * @api {post} /save a user
 	 * @apiDescription save user information
@@ -42,6 +43,8 @@ router
 	 * @apiError (Unauthorized 401)	 Unauthorized 		Only authorized users can access the data
 	 * @apiError (Forbidden 403 		Forbidden 			Only admin can access the data)
 	 */
-	.post(controllers.saveAUser);
+	.post(userControllers.saveAUser);
+
+router.route("/:id").get(viewCount, limiter, userControllers.getUserDetail);
 
 module.exports = router;
