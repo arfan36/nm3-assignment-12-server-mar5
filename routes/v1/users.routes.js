@@ -45,6 +45,10 @@ router
 	 */
 	.post(userControllers.saveAUser);
 
-router.route("/:id").get(viewCount, limiter, userControllers.getUserDetail);
+router
+	.route("/:id")
+	.get(viewCount, limiter, userControllers.getUserDetail)
+	.patch(viewCount, userControllers.updateUser)
+	.delete(viewCount, userControllers.deleteUser);
 
 module.exports = router;

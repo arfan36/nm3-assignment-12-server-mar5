@@ -1,4 +1,4 @@
-const tools = [
+let tools = [
 	{ id: 1, name: "Hammer" },
 	{ id: 2, name: "Hammer2" },
 	{ id: 3, name: "Hammer3" },
@@ -22,4 +22,26 @@ module.exports.getUserDetail = (req, res) => {
 	// const filter = {_id: id}
 	const foundTool = tools.find((tool) => tool.id === Number(id));
 	res.send(foundTool);
+};
+
+module.exports.updateUser = (req, res) => {
+	// const newData = req.body;
+	const { id } = req.params;
+	const filter = { _id: id };
+
+	const newData = tools.find((tool) => Number(tool.id) === Number(id));
+
+	newData.id = id;
+	newData.name = req.body.name;
+
+	res.send(newData);
+};
+
+module.exports.deleteUser = (req, res) => {
+	const { id } = req.params;
+	const filter = { _id: id };
+
+	tools = tools.filter((tool) => tool.id !== Number(id));
+
+	res.send(tools);
 };
