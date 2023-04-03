@@ -15,6 +15,8 @@ const port = process.env.PORT || 5000;
 // middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.static("public"));
+app.set("view engine", "ejs");
 
 // jwt token middleware
 function verifyJWT(req, res, next) {
@@ -340,11 +342,18 @@ async function run() {
 run().catch(console.dir);
 
 app.get("/", (req, res) => {
-	res.send("Server running");
+	// res.send("Server running");
+	// res.sendFile(__dirname + "/public/test.html");
+	res.render("home.ejs", {
+		id: 5,
+		user: {
+			name: "test",
+		},
+	});
 });
 
 app.all("*", (req, res) => {
-	res.send("*** No routes found");
+	res.send("** No routes found");
 });
 
 app.listen(port, () => {
